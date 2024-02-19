@@ -33,9 +33,9 @@ class GoodWeCounter:
                                                                                    [ModbusDataType.UINT_16]*3,
                                                                                    unit=self.__modbus_id)]
                 exported = self.__tcp_client.read_holding_registers(
-                    36015, ModbusDataType.FLOAT_32, unit=self.__modbus_id)
+                    36015, ModbusDataType.FLOAT_32, unit=self.__modbus_id) * 1000
                 imported = self.__tcp_client.read_holding_registers(
-                    36017, ModbusDataType.FLOAT_32, unit=self.__modbus_id)
+                    36017, ModbusDataType.FLOAT_32, unit=self.__modbus_id) * 1000
                 powers = [
                     val * -1 for val in self.__tcp_client.read_holding_registers(36005,
                                                                                  [ModbusDataType.INT_16]*3,
