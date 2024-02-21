@@ -16,9 +16,8 @@ class RctInverter:
 
     def update(self, rct_client: RCT) -> None:
         my_tab = []
-        power1 = rct_client.add_by_name(my_tab, 'dc_conv.dc_conv_struct[0].p_dc')
-        power2 = rct_client.add_by_name(my_tab, 'dc_conv.dc_conv_struct[1].p_dc')
-        power3 = rct_client.add_by_name(my_tab, 'io_board.s0_external_power')
+        power1 = rct_client.add_by_name(my_tab, 'g_sync.p_ac_sum_lp')
+        power2 = rct_client.add_by_name(my_tab, 'io_board.s0_external_power')
         # pLimit = rct_client.add_by_name(MyTab, 'p_rec_lim[2]')   # max. AC power according to RCT Power
         exported1 = rct_client.add_by_name(my_tab, 'energy.e_dc_total[0]')
         exported2 = rct_client.add_by_name(my_tab, 'energy.e_dc_total[1]')
@@ -28,7 +27,7 @@ class RctInverter:
         rct_client.read(my_tab)
 
         inverter_state = InverterState(
-            power=(power1.value + power2.value + power3.value) * -1,
+            power=(power1.value * -1 + power2.value),
             exported=(exported1.value + exported2.value + exported3.value),
         )
         self.store.set(inverter_state)
